@@ -42,13 +42,13 @@ jobs:
       with:
         python_version: 3.6.10
         poetry_version: 1.0.10
-        args: run black --check .
+        args: run black --check testcontainer_python_minio/ tests/
     - name: flake8
       uses: abatilo/actions-poetry@v1.5.0
       with:
         python_version: 3.6.10
         poetry_version: 1.0.10
-        args: run flake8 .
+        args: run flake8 testcontainer_python_minio/ tests/
     - name: pytest
       uses: abatilo/actions-poetry@v1.5.0
       with:
