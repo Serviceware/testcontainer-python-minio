@@ -1,0 +1,63 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  poetry:
+    name: poetry
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: config venv
+      uses: abatilo/actions-poetry@v1.5.0
+      with:
+        python_version: 3.6.10
+        poetry_version: 1.0.10
+        args: config virtualenvs.in-project true
+    - name: Cache venv
+      uses: actions/cache@v2
+      env:
+        cache-name: venv
+      with:
+        path: .venv
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('poetry.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+    - name: install
+      uses: abatilo/actions-poetry@v1.5.0
+      with:
+        python_version: 3.6.10
+        poetry_version: 1.0.10
+        args: install
+    - name: black
+      uses: abatilo/actions-poetry@v1.5.0
+      with:
+        python_version: 3.6.10
+        poetry_version: 1.0.10
+        args: run black --check .
+    - name: flake8
+      uses: abatilo/actions-poetry@v1.5.0
+      with:
+        python_version: 3.6.10
+        poetry_version: 1.0.10
+        args: run flake8 .
+    - name: pytest
+      uses: abatilo/actions-poetry@v1.5.0
+      with:
+        python_version: 3.6.10
+        poetry_version: 1.0.10
+        args: run pytest tests/
+    - name: publish
+      uses: abatilo/actions-poetry@v1.5.0
+      with:
+        python_version: 3.6.10
+        poetry_version: 1.0.10
+        args: publish --build -u __token__ -p ${{ secrets.PIPY_TOKEN }}
