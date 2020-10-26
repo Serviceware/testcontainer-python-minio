@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "testcontainer-python-minio"
-version = "0.1.0"
+version = "0.2.0"
 description = ""
 authors = ["Max Fröhlich <max.froehlich@serviceware.de>"]
 
 [tool.poetry.dependencies]
 python = "^3.6"
-testcontainers = { version = "^2.5" }
+testcontainers = { version = "^3.0" }
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.3.4"
