@@ -1,4 +1,4 @@
-from requests import get, post, Response
+from requests import get, post, Response, exceptions
 from testcontainers.core.container import DockerContainer
 from testcontainers.core.waiting_utils import wait_container_is_ready
 import logging
@@ -21,7 +21,7 @@ class MinioContainer(DockerContainer):
     def secretKey(self):
         return self.env["MINIO_SECRET_KEY"]
 
-    @wait_container_is_ready()
+    @wait_container_is_ready(exceptions.ConnectionError)
     def _connect(self):
         try:
             logger.info("Connecting to %s", self.get_url())
