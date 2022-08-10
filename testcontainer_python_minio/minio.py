@@ -26,7 +26,7 @@ class MinioContainer(DockerContainer):
 
     @wait_container_is_ready(exceptions.ConnectionError, exceptions.ReadTimeout)
     def _connect(self):
-        url = f'{self.get_url()}/minio/health/live'
+        url = f"{self.get_url()}/minio/health/live"
         logger.info("Connecting to %s", url)
         res: Response = get(url)
         res.raise_for_status()
